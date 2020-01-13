@@ -51,6 +51,10 @@ public class GameListener extends MouseAdapter implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent event) {
 		if (this.getController().getState().equals(GameState.LEVEL)) {
+			if (event.getKeyCode() == KeyEvent.VK_ESCAPE) {
+				this.getController().setState(GameState.MAIN_MENU);
+			}
+			
 			Case prev = this.getController().getSelection();
 			if (prev != null) {
 				Case next = null;
@@ -66,9 +70,6 @@ public class GameListener extends MouseAdapter implements KeyListener {
 					break;
 				case KeyEvent.VK_D: case KeyEvent.VK_RIGHT:
 					next = this.getController().getLevel().getCase(prev.getY(), prev.getX() + 1);
-					break;
-				case KeyEvent.VK_ESCAPE:
-					this.getController().setState(GameState.MAIN_MENU);
 					break;
 				default:
 					break;

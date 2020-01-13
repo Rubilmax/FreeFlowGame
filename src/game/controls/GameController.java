@@ -114,7 +114,7 @@ public class GameController {
 		int i = (y - 3 - GamePanel.MENU_Y_OFFSET - GamePanel.MENU_Y_SPACE / 4) / GamePanel.MENU_Y_SPACE;
 		int j = (x - 32) / GamePanel.MENU_X_SPACE;
 		this.setLevelId(i * GamePanel.MENU_X_LENGTH + j + this.getPageId() * GamePanel.MENU_X_LENGTH * GamePanel.MENU_Y_LENGTH);
-		if (i >= 0 && j >= 0 && this.getLevel() != null) {
+		if (i >= 0 && j >= 0 && y >= GamePanel.MENU_Y_OFFSET * 1.1 && this.getLevel() != null) {
 			if (this.getLevel().isFinished()) {
 				this.getLevel().fill();
 				this.setSelection(null);
