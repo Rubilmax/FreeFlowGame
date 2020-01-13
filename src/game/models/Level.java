@@ -102,7 +102,7 @@ public class Level {
 	
 	public boolean isFinished() {
 		for (Case case1 : this.getCases().values()) {
-			if (case1.isExtremite() && !case1.hasLigne()) return false;
+			if (!case1.hasLine()) return false;
 		}
 		return true;
 	}

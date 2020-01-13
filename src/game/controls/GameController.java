@@ -53,13 +53,13 @@ public class GameController {
 	}
 	
 	public void select(Case case1) {
-		if (!case1.isExtremite() && !case1.hasLigne()) return;
+		if (!case1.isExtremite() && !case1.hasLine()) return;
 		
 		if (case1.isExtremite()) {
 			LineColor lineColor = case1.getCouleur();
 			Line line = this.getLevel().getLine(lineColor.toString());
 			line.reset(case1);
-		} else if (case1.hasLigne()) {
+		} else if (case1.hasLine()) {
 			Line line = case1.getLine();
 			line.removeFrom(case1);
 			line.add(case1);
@@ -72,7 +72,7 @@ public class GameController {
 		Case selection = this.getSelection();
 		Line current = selection.getLine();// we need to retrieve current ligne before removing cases next's ligne (in case it's the same ligne)
 		
-		if (next.hasLigne()) {
+		if (next.hasLine()) {
 			Line line = next.getLine();
 			line.removeFrom(next);
 		}

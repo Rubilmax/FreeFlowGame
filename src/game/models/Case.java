@@ -28,7 +28,7 @@ public class Case {
 		return this.lineColor != null;
 	}
 	
-	public boolean hasLigne() {
+	public boolean hasLine() {
 		return this.getLine() != null;
 	}
 

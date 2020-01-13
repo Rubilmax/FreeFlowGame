@@ -6,6 +6,7 @@ import game.controls.GameWindow;
 
 /**
  * Main class launching the game
+ * ONE rule : connect nodes of the same color with flows filling every case!
  * 
  * Select a level with the MOUSE
  * Change level page with ARROWS
