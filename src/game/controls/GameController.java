@@ -125,24 +125,43 @@ public class GameController {
 	/**
 	 * Retrieve levels data from ./levels.txt
 	 */
-	@SuppressWarnings("resource")
 	public List<Level> getLevelsData() {
 		List<Level> levels = new ArrayList<Level>();
 		
+		String separator = FileSystems.getDefault().getSeparator();
+		
+		String path = "";
 		try {
 			
-			String path = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
-			String separator = FileSystems.getDefault().getSeparator();
-			File file = new File(path + separator + ".." + separator + "levels.txt");
+			path = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
 			
-			Scanner scanner = new Scanner(file);
+		} catch (URISyntaxException e) {
+		}
+
+		Scanner scanner = null;
+		
+		try {
+
+			scanner = new Scanner(new File(path + separator + ".." + separator + "levels.txt"));
+			
+		} catch (FileNotFoundException e) {
+			
+			try {
+				
+				scanner = new Scanner(new File(path + separator + ".." + separator + "src" + separator + "levels.txt"));
+				
+			} catch (FileNotFoundException e1) {
+			}
+			
+		}
+		
+		if (scanner != null) {
+
 			while (scanner.hasNextLine()) {
 				String line = scanner.nextLine();
 				if (line.length() > 0) levels.add(new Level(line));
 			}
 			
-		} catch (FileNotFoundException | URISyntaxException e) {
-			e.printStackTrace();
 		}
 		
 		return levels;
