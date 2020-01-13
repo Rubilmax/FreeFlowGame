@@ -2,7 +2,8 @@ package game.controls;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.net.URL;
+import java.net.URISyntaxException;
+import java.nio.file.FileSystems;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -128,16 +129,18 @@ public class GameController {
 	public List<Level> getLevelsData() {
 		List<Level> levels = new ArrayList<Level>();
 		
-		URL url = this.getClass().getResource("levels.txt");
-		File file = new File(url.getPath());
-		
 		try {
+			
+			String path = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
+			File file = new File(path + FileSystems.getDefault().getSeparator() + "levels.txt");
+			
 			Scanner scanner = new Scanner(file);
 			while (scanner.hasNextLine()) {
 				String line = scanner.nextLine();
 				if (line.length() > 0) levels.add(new Level(line));
 			}
-		} catch (FileNotFoundException e) {
+			
+		} catch (FileNotFoundException | URISyntaxException e) {
 			e.printStackTrace();
 		}
 		
