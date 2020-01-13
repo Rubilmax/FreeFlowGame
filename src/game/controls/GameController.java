@@ -132,7 +132,8 @@ public class GameController {
 		try {
 			
 			String path = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
-			File file = new File(path + FileSystems.getDefault().getSeparator() + "levels.txt");
+			String separator = FileSystems.getDefault().getSeparator();
+			File file = new File(path + separator + ".." + separator + "levels.txt");
 			
 			Scanner scanner = new Scanner(file);
 			while (scanner.hasNextLine()) {
