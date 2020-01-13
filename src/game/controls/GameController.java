@@ -30,6 +30,7 @@ public class GameController {
 	private GameState state;
 	private final List<Level> levels;
 	private int levelId = -1;
+	private int pageId = 0;
 	private Case selection;
 	public GameController(GameState state) {
 		this.state = state;
@@ -110,9 +111,9 @@ public class GameController {
 	 * @param y
 	 */
 	public void selectLevel(int x, int y) {
-		int i = (y - 3 - GamePanel.MENU_Y_OFFSET - GamePanel.MENU_Y_SPACE / 2) / GamePanel.MENU_Y_SPACE;
+		int i = (y - 3 - GamePanel.MENU_Y_OFFSET - GamePanel.MENU_Y_SPACE / 4) / GamePanel.MENU_Y_SPACE;
 		int j = (x - 32) / GamePanel.MENU_X_SPACE;
-		this.setLevelId(i * GamePanel.MENU_LENGTH + j);
+		this.setLevelId(i * GamePanel.MENU_X_LENGTH + j + this.getPageId() * GamePanel.MENU_X_LENGTH * GamePanel.MENU_Y_LENGTH);
 		if (i >= 0 && j >= 0 && this.getLevel() != null) {
 			if (this.getLevel().isFinished()) {
 				this.getLevel().fill();
@@ -183,8 +184,22 @@ public class GameController {
 		return levelId;
 	}
 
-	public void setLevelId(int levelId) {
+	protected void setLevelId(int levelId) {
 		this.levelId = levelId;
+	}
+
+	public int getPageId() {
+		return pageId;
+	}
+
+	public void setPageId(int pageId) {
+		if (pageId >= 0 && pageId < this.getMaxPageId()) {
+			this.pageId = pageId;
+		}
+	}
+	
+	public int getMaxPageId() {
+		return (int) Math.ceil(this.getLevels().size() / (GamePanel.MENU_X_LENGTH * GamePanel.MENU_Y_LENGTH));
 	}
 
 }

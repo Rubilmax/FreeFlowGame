@@ -79,6 +79,12 @@ public class GameListener extends MouseAdapter implements KeyListener {
 			if (event.getKeyCode() == KeyEvent.VK_ENTER) {
 				this.getController().setState(GameState.MAIN_MENU);
 			}
+		} else if (this.getController().getState().equals(GameState.MAIN_MENU)) {
+			if (event.getKeyCode() == KeyEvent.VK_RIGHT) {
+				this.getController().setPageId(this.getController().getPageId() + 1);
+			} else if (event.getKeyCode() == KeyEvent.VK_LEFT) {
+				this.getController().setPageId(this.getController().getPageId() - 1);
+			}
 		}
 		
 		this.getPanel().repaint();

@@ -20,12 +20,14 @@ import game.models.Line;
  */
 public class GamePanel extends JPanel {
 
-	public static final int MENU_LENGTH = 5;
+	public static final int MENU_X_LENGTH = 5;
+	public static final int MENU_Y_LENGTH = 4;
+	
 	public static final int MENU_X_MARGIN = GameWindow.WINDOW_LENGTH / 20;
 	public static final int MENU_Y_OFFSET = GameWindow.WINDOW_LENGTH / 3;
 	
-	public static final int MENU_X_SPACE = (GameWindow.WINDOW_LENGTH - 2 * GamePanel.MENU_X_MARGIN) / GamePanel.MENU_LENGTH;
-	public static final int MENU_Y_SPACE = (GameWindow.WINDOW_LENGTH - GamePanel.MENU_Y_OFFSET) / GamePanel.MENU_LENGTH;
+	public static final int MENU_X_SPACE = (GameWindow.WINDOW_LENGTH - 2 * GamePanel.MENU_X_MARGIN) / GamePanel.MENU_X_LENGTH;
+	public static final int MENU_Y_SPACE = (GameWindow.WINDOW_LENGTH - GamePanel.MENU_Y_OFFSET) / GamePanel.MENU_Y_LENGTH;
 	
 	public static final Color BACKGROUND_COLOR = new Color(46, 49, 49);
 	public static final Color SELECT_COLOR = new Color(58, 61, 61);
@@ -55,23 +57,37 @@ public class GamePanel extends JPanel {
 			g.setColor(GamePanel.WHITE);
 			g.setFont(new Font("Segoe UI", Font.PLAIN, GameWindow.WINDOW_LENGTH / 9));
 			g.drawString("Free Flow Game", GameWindow.WINDOW_LENGTH / 9, GameWindow.WINDOW_LENGTH / 5);
+
+			// Pages
+			g.setFont(new Font("Segoe UI", Font.PLAIN, GameWindow.WINDOW_LENGTH / 30));
+			g.drawString("PAGE " + String.valueOf(this.getController().getPageId() + 1), 27 * GameWindow.WINDOW_LENGTH / 60, 4 * GameWindow.WINDOW_LENGTH / 15);
+			if (this.getController().getPageId() < this.getController().getMaxPageId() - 1) g.drawString(">", 35 * GameWindow.WINDOW_LENGTH / 60, 4 * GameWindow.WINDOW_LENGTH / 15);
+			if (this.getController().getPageId() > 0) g.drawString("<", 24 * GameWindow.WINDOW_LENGTH / 60, 4 * GameWindow.WINDOW_LENGTH / 15);
 			
 			// Levels
-			g.setFont(new Font("Segoe UI", Font.PLAIN, GameWindow.WINDOW_LENGTH / 30));
-			
-			for (int i = 0; i <= this.getController().getLevels().size() / GamePanel.MENU_LENGTH; i++) {
-				for (int j = 0; j < Math.min(this.getController().getLevels().size() - i * GamePanel.MENU_LENGTH, GamePanel.MENU_LENGTH); j++) {
-					int levelId = i * GamePanel.MENU_LENGTH + j;
+			int offsetId = this.getController().getPageId() * GamePanel.MENU_X_LENGTH * GamePanel.MENU_Y_LENGTH;
+			for (int i = 0; i <= this.getController().getLevels().size() / GamePanel.MENU_X_LENGTH; i++) {
+				for (int j = 0; j < Math.min(this.getController().getLevels().size() - i * GamePanel.MENU_X_LENGTH - offsetId, GamePanel.MENU_X_LENGTH); j++) {
+					int levelId = i * GamePanel.MENU_X_LENGTH + j + offsetId;
 					
+					// Finished levels
 					if (this.getController().getLevels().get(levelId).isFinished()) {
 						g.setColor(new Color(0, 177, 106));
 						g.fillOval(j * GamePanel.MENU_X_SPACE + GamePanel.MENU_X_SPACE / 4 + GamePanel.MENU_X_MARGIN, i * GamePanel.MENU_Y_SPACE + GamePanel.MENU_Y_SPACE / 4 + GamePanel.MENU_Y_OFFSET, GamePanel.MENU_X_SPACE / 2, GamePanel.MENU_X_SPACE / 2);
 					}
 					
 					g.setColor(GamePanel.WHITE);
+					g.setFont(new Font("Segoe UI", Font.PLAIN, GameWindow.WINDOW_LENGTH / 30));
+					
+					// Level icon
 					g.drawOval(j * GamePanel.MENU_X_SPACE + GamePanel.MENU_X_SPACE / 4 + GamePanel.MENU_X_MARGIN, i * GamePanel.MENU_Y_SPACE + GamePanel.MENU_Y_SPACE / 4 + GamePanel.MENU_Y_OFFSET, GamePanel.MENU_X_SPACE / 2, GamePanel.MENU_X_SPACE / 2);
 					String number = String.valueOf(levelId + 1);
-					g.drawString(number, j * GamePanel.MENU_X_SPACE + GamePanel.MENU_X_SPACE / 2 - number.length() * GamePanel.MENU_X_SPACE / 18 + GamePanel.MENU_X_MARGIN, i * GamePanel.MENU_Y_SPACE + GamePanel.MENU_Y_SPACE / 2 + GamePanel.MENU_Y_SPACE / 6 + GamePanel.MENU_Y_OFFSET);
+					g.drawString(number, j * GamePanel.MENU_X_SPACE + GamePanel.MENU_X_SPACE / 2 - number.length() * GamePanel.MENU_X_SPACE / 21 + GamePanel.MENU_X_MARGIN, i * GamePanel.MENU_Y_SPACE + GamePanel.MENU_Y_SPACE / 2 + GamePanel.MENU_Y_SPACE / 15 + GamePanel.MENU_Y_OFFSET);
+
+					// Level size
+					String size = String.valueOf(this.getController().getLevels().get(levelId).getSquareLength());
+					g.setFont(new Font("Segoe UI", Font.PLAIN, GameWindow.WINDOW_LENGTH / 60));
+					g.drawString(size + "x" + size, j * GamePanel.MENU_X_SPACE + GamePanel.MENU_X_SPACE / 2 - GamePanel.MENU_X_SPACE / 14 + GamePanel.MENU_X_MARGIN, i * GamePanel.MENU_Y_SPACE + GamePanel.MENU_Y_SPACE / 2 + GamePanel.MENU_Y_SPACE / 6 + GamePanel.MENU_Y_OFFSET);
 					
 				}
 			}
