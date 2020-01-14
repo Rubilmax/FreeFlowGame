@@ -193,13 +193,13 @@ public class GameController {
 	}
 
 	public void setPageId(int pageId) {
-		if (pageId >= 0 && pageId < this.getMaxPageId()) {
+		if (pageId >= 0 && pageId <= this.getMaxPageId()) {
 			this.pageId = pageId;
 		}
 	}
 	
 	public int getMaxPageId() {
-		return (int) Math.ceil(this.getLevels().size() / (GamePanel.MENU_X_LENGTH * GamePanel.MENU_Y_LENGTH));
+		return this.getLevels().size() / (GamePanel.MENU_X_LENGTH * GamePanel.MENU_Y_LENGTH);
 	}
 
 }

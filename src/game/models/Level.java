@@ -1,6 +1,10 @@
 package game.models;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
 
 /**
  * Class saving level data (Cases, Lines states, level's size)
@@ -14,6 +18,7 @@ public class Level {
 
 	private final String parameter;
 	private final int squareLength;
+	private final HashMap<Character, LineColor> lineColors = new HashMap<Character, LineColor>(); // map characters of parameter string to their LineColor value, in case they have no native correspondance
 	
 	private final HashMap<String, Case> cases; // case on line l, column c is saved by key 'lc'
 	private final HashMap<String, Line> lines;
@@ -23,7 +28,8 @@ public class Level {
 		
 		this.cases = new HashMap<String, Case>();
 		this.lines = new HashMap<String, Line>();
-		
+
+		this.generateLineCodes();
 		this.fill();
 	}
 	
@@ -34,7 +40,46 @@ public class Level {
 		this.cases = new HashMap<String, Case>();
 		this.lines = new HashMap<String, Line>();
 		
+		this.generateLineCodes();
 		this.fill();
+	}
+	
+	/**
+	 * Fills lineCodes HashMap
+	 */
+	public void generateLineCodes() {
+		// First round : we add characters that have a native LineColor
+		for (char ch : this.getParameter().toCharArray()) {
+			if (ch != '0' && !this.getLineColors().containsKey(ch)) {
+				LineColor lineColor = null;
+				
+				try {
+					
+					lineColor = LineColor.valueOf(String.valueOf(ch));
+					for (Character ch0 : this.getLineColors().keySet()) {
+						LineColor lineColor0 = this.getLineColors().get(ch0);
+						if (lineColor0.equals(lineColor) && ch != ch0) lineColor = null;
+					}
+					
+				} catch(IllegalArgumentException e) {
+				}
+				
+				if (lineColor != null) this.getLineColors().put(ch, lineColor);
+			}
+		}
+		
+		// Second round : we add characters if there are left LineColors
+		for (char ch : this.getParameter().toCharArray()) {
+			if (ch != '0' && !this.getLineColors().containsKey(ch)) {
+				List<LineColor> lineColors = new ArrayList<LineColor>(Arrays.asList(LineColor.values()));
+				lineColors.removeAll(this.getLineColors().values());
+				
+				if (lineColors.size() > 0) {
+					LineColor lineColor = lineColors.get(new Random().nextInt(lineColors.size()));
+					this.getLineColors().put(ch, lineColor);
+				}
+			}
+		}
 	}
 	
 	/**
@@ -58,16 +103,16 @@ public class Level {
 				
 				LineColor lineColor = null;
 				
-				try {
+				if (ch != '0') {
 					
-					lineColor = LineColor.valueOf(String.valueOf(ch));
+					if (this.getLineColors().containsKey(ch)) {
+						lineColor = this.getLineColors().get(ch);
+					} else System.out.println(String.format("Node %s in level (%s) has no color left => is replaced by empty case", String.valueOf(ch), this.getParameter()));
 					
-					if (!this.getLines().containsKey(lineColor.toString())) {
+					if (lineColor != null && !this.getLines().containsKey(lineColor.toString())) {
 						Line line = new Line(lineColor);
 						this.getLines().put(lineColor.toString(), line);
 					}
-					
-				} catch(IllegalArgumentException exception) {
 				}
 
 				Case case1 = new Case(j, i, lineColor);
@@ -109,6 +154,10 @@ public class Level {
 
 	public String getParameter() {
 		return parameter;
+	}
+
+	public HashMap<Character, LineColor> getLineColors() {
+		return lineColors;
 	}
 
 }

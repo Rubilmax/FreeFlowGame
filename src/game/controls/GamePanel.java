@@ -61,7 +61,7 @@ public class GamePanel extends JPanel {
 			// Pages
 			g.setFont(new Font("Segoe UI", Font.PLAIN, GameWindow.WINDOW_LENGTH / 30));
 			g.drawString("PAGE " + String.valueOf(this.getController().getPageId() + 1), 27 * GameWindow.WINDOW_LENGTH / 60, 4 * GameWindow.WINDOW_LENGTH / 15);
-			if (this.getController().getPageId() < this.getController().getMaxPageId() - 1) g.drawString(">", 35 * GameWindow.WINDOW_LENGTH / 60, 4 * GameWindow.WINDOW_LENGTH / 15);
+			if (this.getController().getPageId() < this.getController().getMaxPageId()) g.drawString(">", 35 * GameWindow.WINDOW_LENGTH / 60, 4 * GameWindow.WINDOW_LENGTH / 15);
 			if (this.getController().getPageId() > 0) g.drawString("<", 24 * GameWindow.WINDOW_LENGTH / 60, 4 * GameWindow.WINDOW_LENGTH / 15);
 			
 			// Levels
@@ -85,9 +85,10 @@ public class GamePanel extends JPanel {
 					g.drawString(number, j * GamePanel.MENU_X_SPACE + GamePanel.MENU_X_SPACE / 2 - number.length() * GamePanel.MENU_X_SPACE / 21 + GamePanel.MENU_X_MARGIN, i * GamePanel.MENU_Y_SPACE + GamePanel.MENU_Y_SPACE / 2 + GamePanel.MENU_Y_SPACE / 15 + GamePanel.MENU_Y_OFFSET);
 
 					// Level size
-					String size = String.valueOf(this.getController().getLevels().get(levelId).getSquareLength());
+					String length = String.valueOf(this.getController().getLevels().get(levelId).getSquareLength());
+					String size = length + "x" + length;
 					g.setFont(new Font("Segoe UI", Font.PLAIN, GameWindow.WINDOW_LENGTH / 60));
-					g.drawString(size + "x" + size, j * GamePanel.MENU_X_SPACE + GamePanel.MENU_X_SPACE / 2 - GamePanel.MENU_X_SPACE / 14 + GamePanel.MENU_X_MARGIN, i * GamePanel.MENU_Y_SPACE + GamePanel.MENU_Y_SPACE / 2 + GamePanel.MENU_Y_SPACE / 6 + GamePanel.MENU_Y_OFFSET);
+					g.drawString(size, j * GamePanel.MENU_X_SPACE + GamePanel.MENU_X_SPACE / 2 - size.length() * GamePanel.MENU_X_SPACE / 41 + GamePanel.MENU_X_MARGIN, i * GamePanel.MENU_Y_SPACE + GamePanel.MENU_Y_SPACE / 2 + GamePanel.MENU_Y_SPACE / 6 + GamePanel.MENU_Y_OFFSET);
 					
 				}
 			}
