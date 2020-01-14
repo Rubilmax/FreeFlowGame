@@ -38,7 +38,7 @@ public class GameListener extends MouseAdapter implements KeyListener {
 			break;
 		case LEVEL:
 			Case next = this.getController().getCase(event.getX(), event.getY());
-			this.getController().click(next);
+			this.getController().action(true, next);
 			break;
 		case LEVEL_FINISHED:
 			this.getController().setState(GameState.MAIN_MENU);
@@ -74,17 +74,25 @@ public class GameListener extends MouseAdapter implements KeyListener {
 				default:
 					break;
 				}
-				if (next != null) this.getController().click(next);
+				if (next != null) {
+					System.out.print(next.getX() + " " + next.getY());
+					this.getController().action(false, next);
+				}
 			}
 		} else if (this.getController().getState().equals(GameState.LEVEL_FINISHED)) {
 			if (event.getKeyCode() == KeyEvent.VK_ENTER) {
 				this.getController().setState(GameState.MAIN_MENU);
 			}
 		} else if (this.getController().getState().equals(GameState.MAIN_MENU)) {
-			if (event.getKeyCode() == KeyEvent.VK_RIGHT) {
-				this.getController().setPageId(this.getController().getPageId() + 1);
-			} else if (event.getKeyCode() == KeyEvent.VK_LEFT) {
+			switch (event.getKeyCode()) {
+			case KeyEvent.VK_Q: case KeyEvent.VK_LEFT:
 				this.getController().setPageId(this.getController().getPageId() - 1);
+				break;
+			case KeyEvent.VK_D: case KeyEvent.VK_RIGHT:
+				this.getController().setPageId(this.getController().getPageId() + 1);
+				break;
+			default:
+				break;
 			}
 		}
 		

@@ -122,7 +122,7 @@ public class Level {
 	}
 	
 	public Case getCase(int ligne, int colonne) {
-		return this.getCases().get(String.valueOf(ligne) + String.valueOf(colonne));
+		return this.getCases().get(String.valueOf(ligne) + "." + String.valueOf(colonne));
 	}
 	
 	public Line getLine(String color) {
@@ -138,7 +138,7 @@ public class Level {
 	}
 	
 	public void addCase(int ligne, int colonne, Case newCase) {
-		this.getCases().put(String.valueOf(ligne) + String.valueOf(colonne), newCase);
+		this.getCases().put(String.valueOf(ligne) + "." + String.valueOf(colonne), newCase);
 	}
 
 	public int getSquareLength() {

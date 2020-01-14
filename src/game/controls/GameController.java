@@ -56,7 +56,7 @@ public class GameController {
 		if (!case1.isExtremite() && !case1.hasLine()) return;
 		
 		if (case1.isExtremite()) {
-			LineColor lineColor = case1.getCouleur();
+			LineColor lineColor = case1.getLineColor();
 			Line line = this.getLevel().getLine(lineColor.toString());
 			line.reset(case1);
 		} else if (case1.hasLine()) {
@@ -77,7 +77,7 @@ public class GameController {
 			line.removeFrom(next);
 		}
 		
-		if (next.isExtremite() && !current.getCouleur().equals(next.getCouleur())) {
+		if (next.isExtremite() && !current.getLineColor().equals(next.getLineColor())) {
 			return;
 		}
 		
@@ -86,10 +86,10 @@ public class GameController {
 		else this.setSelection(next);
 	}
 	
-	public void click(Case next) {
+	public void action(boolean click, Case next) {
 		Case prev = this.getSelection();
-		if (prev == null || !prev.isNextTo(next) || (prev.isExtremite() && next.isExtremite() && !prev.getCouleur().equals(next.getCouleur()))) {
-			this.select(next);
+		if (prev == null || !prev.isNextTo(next) || (prev.isExtremite() && next.isExtremite() && !prev.getLineColor().equals(next.getLineColor())) || (prev.hasLine() && next.isExtremite() && !prev.getLine().getLineColor().equals(next.getLineColor()))) {
+			if (click) this.select(next);
 		} else {
 			this.draw(next);
 		}

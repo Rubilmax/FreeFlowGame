@@ -115,7 +115,7 @@ public class GamePanel extends JPanel {
 				for (int j = 0; j < length; j++) {
 					Case case1 = this.getController().getLevel().getCase(i, j);
 					if (case1.isExtremite()) {
-						g.setColor(case1.getCouleur().getColor());
+						g.setColor(case1.getLineColor().getColor());
 						g.fillOval(j * space + space / 4, i * space + space / 4, space / 2, space / 2);
 					}
 				}
@@ -127,7 +127,7 @@ public class GamePanel extends JPanel {
 			
 			for (Line line : this.getController().getLevel().getLines().values()) {
 				if (line.getCases().size() > 1) {
-					g.setColor(line.getCouleur().getColor());
+					g.setColor(line.getLineColor().getColor());
 					
 					int x = line.getCases().get(0).getX();
 					int y = line.getCases().get(0).getY();

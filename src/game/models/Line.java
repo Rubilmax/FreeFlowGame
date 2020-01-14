@@ -19,7 +19,7 @@ public class Line {
 		this.lineColor = lineColor;
 	}
 	
-	public LineColor getCouleur() {
+	public LineColor getLineColor() {
 		return lineColor;
 	}
 

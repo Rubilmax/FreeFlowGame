@@ -9,7 +9,7 @@ import game.controls.GameWindow;
  * ONE rule : connect nodes of the same color with flows filling every case!
  * 
  * Select a level with the MOUSE
- * Change level page with ARROWS
+ * Change level page with ARROWS or QD keys
  * Control flows with the MOUSE, ARROWS or with ZQSD keys
  * Pause current game and return to main menu with ESCAPE
  * 

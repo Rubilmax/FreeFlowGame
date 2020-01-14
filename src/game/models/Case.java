@@ -20,7 +20,7 @@ public class Case {
 		this.lineColor = lineColor;
 	}
 
-	public LineColor getCouleur() {
+	public LineColor getLineColor() {
 		return lineColor;
 	}
 
