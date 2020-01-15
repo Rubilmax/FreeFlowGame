@@ -60,9 +60,8 @@ public class GameController {
 	
 	public void select(Case next) {
 		boolean creation = this.getState().equals(GameState.LEVEL_ADD);
-		
 		if (!next.isExtremite() && !next.hasLine() && !creation) return;
-		
+
 		if (next.isExtremite()) {
 			if (creation && next.equals(this.getSelection())) {
 				next.setLineColor(null);
@@ -156,16 +155,16 @@ public class GameController {
 		int i = (y - 3 - GamePanel.MENU_Y_OFFSET - GamePanel.MENU_Y_SPACE / 4) / GamePanel.MENU_Y_SPACE;
 		int j = (x - 32) / GamePanel.MENU_X_SPACE;
 		this.setLevelId(i * GamePanel.MENU_X_LENGTH + j + this.getPageId() * GamePanel.MENU_X_LENGTH * GamePanel.MENU_Y_LENGTH);
-		if (i >= 0 && j >= 0 && y >= GamePanel.MENU_Y_OFFSET * 1.1 && this.getLevel() != null) {
-			if (this.getLevel().isFinished()) this.getLevel().fill();
-			this.setSelection(null);
-			this.setState(GameState.LEVEL);
-		}
-		
-		if (this.getLevelId() == this.getLevels().size()) {
-			this.getLevels().add(new Level(5));
-			this.setSelection(null);
-			this.setState(GameState.LEVEL_ADD);
+		if (i >= 0 && j >= 0 && y >= GamePanel.MENU_Y_OFFSET * 1.1) {
+			if (this.getLevelId() == this.getLevels().size()) this.getLevels().add(new Level(5));
+
+			if (this.getLevel() != null) {
+				this.setSelection(null);
+				if (this.getLevel().isFinished()) this.getLevel().fill();
+				
+				if (this.getLevel().isInCreation()) this.setState(GameState.LEVEL_ADD);
+				else this.setState(GameState.LEVEL);
+			}
 		}
 	}
 	

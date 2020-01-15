@@ -66,10 +66,7 @@ public class GameListener extends MouseAdapter implements KeyListener, MouseWhee
 			}
 			break;
 		case LEVEL: case LEVEL_ADD:
-			if (event.getKeyCode() == KeyEvent.VK_ESCAPE) {
-				if (this.getController().getState().equals(GameState.LEVEL_ADD)) this.getController().getLevels().remove(this.getController().getLevelId());
-				this.getController().setState(GameState.MAIN_MENU);
-			}
+			if (event.getKeyCode() == KeyEvent.VK_ESCAPE) this.getController().setState(GameState.MAIN_MENU);
 			
 			Case prev = this.getController().getSelection();
 			if (prev != null) {

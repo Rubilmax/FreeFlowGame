@@ -168,6 +168,14 @@ public class Level {
 		return true;
 	}
 	
+	public boolean isUnfinished() {
+		for (Case case1 : this.getCases().values()) {
+			if (case1.hasLine()) return true;
+		}
+		
+		return false;
+	}
+	
 	public int countExtremites(LineColor lineColor) {
 		int count = 0;
 		for (Case case1 : this.getCases().values()) {
@@ -195,6 +203,10 @@ public class Level {
 		} else parameter = this.parameter;
 		
 		return parameter;
+	}
+	
+	public boolean isInCreation() {
+		return this.parameter.equals("");
 	}
 	
 	public void setParameter(String parameter) {

@@ -31,6 +31,7 @@ public class GamePanel extends JPanel {
 	public static final Color BACKGROUND_COLOR = new Color(46, 49, 49);
 	public static final Color SELECT_COLOR = new Color(58, 61, 61);
 	public static final Color FINISHED_COLOR = new Color(0, 177, 106);
+	public static final Color UNFINISHED_COLOR = new Color(249, 105, 14);
 	public static final Color WHITE = new Color(255, 255, 255);
 	
 	/**
@@ -71,11 +72,11 @@ public class GamePanel extends JPanel {
 				for (int j = 0; j < Math.min(this.getController().getLevels().size() - i * GamePanel.MENU_X_LENGTH - offsetId, GamePanel.MENU_X_LENGTH); j++) {
 					int levelId = i * GamePanel.MENU_X_LENGTH + j + offsetId;
 					
-					// Finished levels
-					if (this.getController().getLevels().get(levelId).isFinished()) {
-						g.setColor(GamePanel.FINISHED_COLOR);
-						g.fillOval(j * GamePanel.MENU_X_SPACE + GamePanel.MENU_X_SPACE / 4 + GamePanel.MENU_X_MARGIN, i * GamePanel.MENU_Y_SPACE + GamePanel.MENU_Y_SPACE / 4 + GamePanel.MENU_Y_OFFSET, GamePanel.MENU_X_SPACE / 2, GamePanel.MENU_X_SPACE / 2);
-					}
+					// Level backgrounds
+					if (this.getController().getLevels().get(levelId).isFinished()) g.setColor(GamePanel.FINISHED_COLOR);
+					else if (this.getController().getLevels().get(levelId).isUnfinished()) g.setColor(GamePanel.UNFINISHED_COLOR);
+					else g.setColor(GamePanel.SELECT_COLOR);
+					g.fillOval(j * GamePanel.MENU_X_SPACE + GamePanel.MENU_X_SPACE / 4 + GamePanel.MENU_X_MARGIN, i * GamePanel.MENU_Y_SPACE + GamePanel.MENU_Y_SPACE / 4 + GamePanel.MENU_Y_OFFSET, GamePanel.MENU_X_SPACE / 2, GamePanel.MENU_X_SPACE / 2);
 					
 					g.setColor(GamePanel.WHITE);
 					g.setFont(new Font("Segoe UI", Font.PLAIN, GameWindow.WINDOW_LENGTH / 30));
