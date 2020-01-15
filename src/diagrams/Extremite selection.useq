@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence-diagram version="1.2.4" icons="true" automaticImage="JPEG" generate-combined-fragments="true">  
+  <object id="1" language="java" name="game.controls.GameListener" project="FreeFlowGame" 
+    file="/FreeFlowGame/src/game/controls/GameListener.java" binary="false" label="gameListener" type="class" 
+    autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="2">      
+      <position height="524" width="0" x="0" y="266"/>    
+    </execution>    
+    <execution id="4">      
+      <position height="452" width="0" x="0" y="314"/>    
+    </execution>  
+  </object>  
+  <object id="7" language="java" name="game.controls.GameController" project="FreeFlowGame" 
+    file="/FreeFlowGame/src/game/controls/GameController.java" binary="false" label="gameController" type="class" 
+    autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="6">      
+      <position height="395" width="0" x="0" y="347"/>    
+    </execution>    
+    <execution id="9">      
+      <position height="313" width="0" x="0" y="405"/>    
+    </execution>    
+    <execution id="12">      
+      <position height="210" width="7" x="200" y="460"/>    
+    </execution>    
+    <execution id="15">      
+      <position height="108" width="7" x="203" y="514"/>    
+    </execution>    
+    <execution id="17">      
+      <position height="24" width="0" x="0" y="574"/>    
+    </execution>  
+  </object>  
+  <object id="18" language="java" name="game.models.Case" project="FreeFlowGame" 
+    file="/FreeFlowGame/src/game/models/Case.java" binary="false" label="case" type="class" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="11">      
+      <position height="258" width="0" x="0" y="436"/>    
+    </execution>    
+    <execution id="14">      
+      <position height="156" width="7" x="311" y="490"/>    
+    </execution>  
+  </object>  
+  <message id="3" operation="mousePressed(java.awt.event.MouseEvent):void" asynchronous="false">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="4"/>  
+  </message>  
+  <message id="5" operation="action(boolean,game.models.Case):void" asynchronous="false">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="6"/>  
+  </message>  
+  <message id="8" operation="select(game.models.Case):void" asynchronous="false">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="9"/>  
+  </message>  
+  <message id="10" operation="hasLine():boolean" asynchronous="false">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="11"/>  
+  </message>  
+  <message id="13" operation="isExtremite():boolean" asynchronous="false">    
+    <end type="SOURCE" refId="12"/>    
+    <end type="TARGET" refId="14"/>  
+  </message>  
+  <message id="16" operation="setSelection(game.models.Case):void" asynchronous="false">    
+    <end type="SOURCE" refId="15"/>    
+    <end type="TARGET" refId="17"/>  
+  </message>  
+  <message id="19" asynchronous="false">    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="12"/>  
+  </message>  
+  <message id="20" asynchronous="false">    
+    <end type="SOURCE" refId="14"/>    
+    <end type="TARGET" refId="15"/>  
+  </message>
+</sequence-diagram>
