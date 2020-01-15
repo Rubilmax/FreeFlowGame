@@ -36,7 +36,7 @@ public class Case {
 		return line;
 	}
 
-	public void setLigne(Line line) {
+	public void setLine(Line line) {
 		this.line = line;
 	}
 

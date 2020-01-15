@@ -74,10 +74,7 @@ public class GameListener extends MouseAdapter implements KeyListener {
 				default:
 					break;
 				}
-				if (next != null) {
-					System.out.print(next.getX() + " " + next.getY());
-					this.getController().action(false, next);
-				}
+				if (next != null) this.getController().action(false, next);
 			}
 		} else if (this.getController().getState().equals(GameState.LEVEL_FINISHED)) {
 			if (event.getKeyCode() == KeyEvent.VK_ENTER) {

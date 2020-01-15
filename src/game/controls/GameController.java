@@ -115,10 +115,8 @@ public class GameController {
 		int j = (x - 32) / GamePanel.MENU_X_SPACE;
 		this.setLevelId(i * GamePanel.MENU_X_LENGTH + j + this.getPageId() * GamePanel.MENU_X_LENGTH * GamePanel.MENU_Y_LENGTH);
 		if (i >= 0 && j >= 0 && y >= GamePanel.MENU_Y_OFFSET * 1.1 && this.getLevel() != null) {
-			if (this.getLevel().isFinished()) {
-				this.getLevel().fill();
-				this.setSelection(null);
-			}
+			if (this.getLevel().isFinished()) this.getLevel().fill();
+			this.setSelection(null);
 			this.setState(GameState.LEVEL);
 		}
 	}
@@ -193,9 +191,7 @@ public class GameController {
 	}
 
 	public void setPageId(int pageId) {
-		if (pageId >= 0 && pageId <= this.getMaxPageId()) {
-			this.pageId = pageId;
-		}
+		this.pageId = Math.min(this.getMaxPageId(), Math.max(0, pageId));
 	}
 	
 	public int getMaxPageId() {

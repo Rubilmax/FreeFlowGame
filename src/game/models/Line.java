@@ -29,19 +29,19 @@ public class Line {
 	
 	public void reset(Case case1) {
 		for (Case case2 : this.getCases()) {
-			case2.setLigne(null);
+			case2.setLine(null);
 		}
 		
 		this.getCases().clear();
 		if (case1 != null) {
 			this.cases.push(case1);
-			case1.setLigne(this);
+			case1.setLine(this);
 		}
 	}
 	
 	public void add(Case next) {
 		this.cases.push(next);
-		next.setLigne(this);
+		next.setLine(this);
 	}
 	
 	public void removeFrom(Case origin) {
@@ -49,7 +49,7 @@ public class Line {
 		if (index > -1) {
 			// to avoid comodification we clone the removal list
 			for (Case case1 : new ArrayList<Case>(this.getCases().subList(index, this.getCases().size()))) {
-				case1.setLigne(null);
+				case1.setLine(null);
 				this.getCases().remove(case1);
 			}
 		}

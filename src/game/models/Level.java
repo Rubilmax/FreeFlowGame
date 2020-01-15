@@ -22,6 +22,9 @@ public class Level {
 	
 	private final HashMap<String, Case> cases; // case on line l, column c is saved by key 'lc'
 	private final HashMap<String, Line> lines;
+	
+	// useless constructor
+	@Deprecated
 	public Level(String parameter, int squareLength) {
 		this.parameter = parameter;
 		this.squareLength = squareLength;
