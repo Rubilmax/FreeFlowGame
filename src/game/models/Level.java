@@ -16,23 +16,20 @@ import java.util.Random;
  */
 public class Level {
 
-	private final String parameter;
-	private final int squareLength;
+	private String parameter;
+	private int squareLength;
+	
 	private final HashMap<Character, LineColor> lineColors = new HashMap<Character, LineColor>(); // map characters of parameter string to their LineColor value, in case they have no native correspondance
-	
 	private final HashMap<String, Case> cases; // case on line l, column c is saved by key 'lc'
-	private final HashMap<String, Line> lines;
+	private final HashMap<LineColor, Line> lines;
 	
-	// useless constructor
-	@Deprecated
-	public Level(String parameter, int squareLength) {
-		this.parameter = parameter;
+	public Level(int squareLength) {
+		this.parameter = "";
 		this.squareLength = squareLength;
 		
 		this.cases = new HashMap<String, Case>();
-		this.lines = new HashMap<String, Line>();
+		this.lines = new HashMap<LineColor, Line>();
 
-		this.generateLineCodes();
 		this.fill();
 	}
 	
@@ -41,10 +38,21 @@ public class Level {
 		this.squareLength = (int) Math.ceil(Math.sqrt(parameter.length()));
 		
 		this.cases = new HashMap<String, Case>();
-		this.lines = new HashMap<String, Line>();
+		this.lines = new HashMap<LineColor, Line>();
 		
 		this.generateLineCodes();
 		this.fill();
+	}
+	
+	public LineColor getRandomUnusedLineColor() {
+		List<LineColor> lineColors = new ArrayList<LineColor>(Arrays.asList(LineColor.values()));
+		lineColors.removeAll(this.getLineColors().values());
+		
+		if (lineColors.size() > 0) {
+			return lineColors.get(new Random().nextInt(lineColors.size()));
+		}
+		
+		return null;
 	}
 	
 	/**
@@ -74,13 +82,9 @@ public class Level {
 		// Second round : we add characters if there are left LineColors
 		for (char ch : this.getParameter().toCharArray()) {
 			if (ch != '0' && !this.getLineColors().containsKey(ch)) {
-				List<LineColor> lineColors = new ArrayList<LineColor>(Arrays.asList(LineColor.values()));
-				lineColors.removeAll(this.getLineColors().values());
+				LineColor lineColor = this.getRandomUnusedLineColor();
 				
-				if (lineColors.size() > 0) {
-					LineColor lineColor = lineColors.get(new Random().nextInt(lineColors.size()));
-					this.getLineColors().put(ch, lineColor);
-				}
+				if (lineColor != null) this.getLineColors().put(ch, lineColor);
 			}
 		}
 	}
@@ -93,16 +97,16 @@ public class Level {
 		this.getCases().clear();
 		this.getLines().clear();
 		
-		if (this.getParameter().length() < this.squareLength * this.squareLength) {
-			System.out.println(String.format("Parameter string (%s) is not long enough, level will be completed with empty cases", this.getParameter()));
+		if (this.parameter.length() > 0 && this.parameter.length() < this.squareLength * this.squareLength) {
+			System.out.println(String.format("Parameter string (%s) is not long enough, level will be completed with empty cases", this.parameter));
 		}
 		
-		for (int i = 0; i < this.squareLength; i++) {
-			for (int j = 0; j < this.squareLength; j++) {
-				int index = i * this.squareLength + j;
+		for (int i = 0; i < this.getSquareLength(); i++) {
+			for (int j = 0; j < this.getSquareLength(); j++) {
+				int index = i * this.getSquareLength() + j;
 				
 				char ch = '0';
-				if (index < this.getParameter().length()) ch = this.getParameter().charAt(index);
+				if (index < this.parameter.length()) ch = this.parameter.charAt(index);
 				
 				LineColor lineColor = null;
 				
@@ -112,14 +116,14 @@ public class Level {
 						lineColor = this.getLineColors().get(ch);
 					} else System.out.println(String.format("Node %s in level (%s) has no color left => is replaced by empty case", String.valueOf(ch), this.getParameter()));
 					
-					if (lineColor != null && !this.getLines().containsKey(lineColor.toString())) {
+					if (lineColor != null && !this.getLines().containsKey(lineColor)) {
 						Line line = new Line(lineColor);
-						this.getLines().put(lineColor.toString(), line);
+						this.getLines().put(lineColor, line);
 					}
 				}
 
 				Case case1 = new Case(j, i, lineColor);
-				this.addCase(i, j, case1);
+				this.setCase(i, j, case1);
 			}
 		}
 	}
@@ -128,7 +132,7 @@ public class Level {
 		return this.getCases().get(String.valueOf(ligne) + "." + String.valueOf(colonne));
 	}
 	
-	public Line getLine(String color) {
+	public Line getLine(LineColor color) {
 		return this.getLines().get(color);
 	}
 
@@ -136,11 +140,11 @@ public class Level {
 		return cases;
 	}
 
-	public HashMap<String, Line> getLines() {
+	public HashMap<LineColor, Line> getLines() {
 		return lines;
 	}
 	
-	public void addCase(int ligne, int colonne, Case newCase) {
+	public void setCase(int ligne, int colonne, Case newCase) {
 		this.getCases().put(String.valueOf(ligne) + "." + String.valueOf(colonne), newCase);
 	}
 
@@ -148,19 +152,85 @@ public class Level {
 		return squareLength;
 	}
 	
+	public void setSquareLength(int squareLength) {
+		this.squareLength = squareLength;
+	}
+	
 	public boolean isFinished() {
 		for (Case case1 : this.getCases().values()) {
 			if (!case1.hasLine()) return false;
 		}
+		
+		for (Line line : this.getLines().values()) {
+			if (line.getCases().size() < 2) return false;
+		}
+		
 		return true;
+	}
+	
+	public int countExtremites(LineColor lineColor) {
+		int count = 0;
+		for (Case case1 : this.getCases().values()) {
+			if (case1.isExtremite() && case1.getLineColor().equals(lineColor)) count ++;
+		}
+		return count;
 	}
 
 	public String getParameter() {
+		String parameter = "";
+		
+		if (this.parameter.length() != this.getSquareLength() * this.getSquareLength()) {
+			
+			for (int i = 0; i < this.getSquareLength(); i++) {
+				for (int j = 0; j < this.getSquareLength(); j++) {
+					String ch = "0";
+					
+					Case case1 = this.getCase(i, j);
+					if (case1.isExtremite()) ch = case1.getLineColor().toString();
+					
+					parameter += ch;
+				}
+			}
+			
+		} else parameter = this.parameter;
+		
 		return parameter;
+	}
+	
+	public void setParameter(String parameter) {
+		this.parameter = parameter;
 	}
 
 	public HashMap<Character, LineColor> getLineColors() {
 		return lineColors;
+	}
+	
+	public void zoom() {
+		if (this.getSquareLength() > 5) {
+			for (int k = 0; k < this.getSquareLength(); k++) {
+				Case case1 = this.getCases().get(String.valueOf(this.getSquareLength()) + "." + String.valueOf(k));
+				if (case1 != null && case1.hasLine()) case1.getLine().reset(null);
+				
+				Case case2 = this.getCases().get(String.valueOf(this.getSquareLength()) + "." + String.valueOf(k));
+				if (case2 != null && case2.hasLine()) case2.getLine().reset(null);
+				
+				this.getCases().remove(String.valueOf(this.getSquareLength()) + "." + String.valueOf(k));
+				this.getCases().remove(String.valueOf(k) + "." + String.valueOf(this.getSquareLength()));
+			}
+			
+			this.setSquareLength(this.getSquareLength() - 1);
+		}
+	}
+	
+	public void dezoom() {
+		if (this.getSquareLength() < 25) {
+			for (int k = 0; k < this.getSquareLength() + 1; k++) {
+				this.setCase(this.getSquareLength(), k, new Case(k, this.getSquareLength(), null));
+				this.setCase(k, this.getSquareLength(), new Case(this.getSquareLength(), k, null));
+			}
+			
+			this.setSquareLength(this.getSquareLength() + 1);
+		}
 	}
 
 }

@@ -12,7 +12,7 @@ public class Case {
 	
 	private final int x;
 	private final int y;
-	private final LineColor lineColor; // is not null if Case is a node
+	private LineColor lineColor; // is not null if Case is a node
 	private Line line; // is not null if Case has a Line
 	public Case(int x, int y, LineColor lineColor) {
 		this.x = x;
@@ -22,6 +22,10 @@ public class Case {
 
 	public LineColor getLineColor() {
 		return lineColor;
+	}
+	
+	public void setLineColor(LineColor lineColor) {
+		this.lineColor = lineColor;
 	}
 
 	public boolean isExtremite() {

@@ -1,10 +1,14 @@
 package game.controls;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.FileSystems;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -24,8 +28,10 @@ import game.models.LineColor;
 public class GameController {
 	
 	public enum GameState {
-		MAIN_MENU, LEVEL, LEVEL_FINISHED;
+		MAIN_MENU, LEVEL, LEVEL_FINISHED, LEVEL_ADD;
 	}
+	
+	private String levelsPath;
 
 	private GameState state;
 	private final List<Level> levels;
@@ -52,25 +58,50 @@ public class GameController {
 		this.selection = selection;
 	}
 	
-	public void select(Case case1) {
-		if (!case1.isExtremite() && !case1.hasLine()) return;
+	public void select(Case next) {
+		boolean creation = this.getState().equals(GameState.LEVEL_ADD);
 		
-		if (case1.isExtremite()) {
-			LineColor lineColor = case1.getLineColor();
-			Line line = this.getLevel().getLine(lineColor.toString());
-			line.reset(case1);
-		} else if (case1.hasLine()) {
-			Line line = case1.getLine();
-			line.removeFrom(case1);
-			line.add(case1);
+		if (!next.isExtremite() && !next.hasLine() && !creation) return;
+		
+		if (next.isExtremite()) {
+			if (creation && next.equals(this.getSelection())) {
+				next.setLineColor(null);
+				next.setLine(null);
+				next = null;
+			} else {
+				LineColor lineColor = next.getLineColor();
+				Line line = this.getLevel().getLine(lineColor);
+				line.reset(next);
+			}
+		} else if (next.hasLine()) {
+			if (creation) {
+				LineColor currentLineColor = next.getLine().getLineColor();
+				if (this.getLevel().countExtremites(currentLineColor) < 2) {
+					next.setLineColor(currentLineColor);
+					next = null;
+				}
+			} else {
+				Line line = next.getLine();
+				line.removeFrom(next);
+				line.add(next);
+			}
+		} else if (creation) {
+			LineColor lineColor = this.getLevel().getRandomUnusedLineColor();
+			if (lineColor != null) {
+				this.getLevel().getLineColors().put(lineColor.toString().charAt(0), lineColor);
+				next.setLineColor(lineColor);
+				Line line = new Line(lineColor);
+				this.getLevel().getLines().put(lineColor, line);
+				line.add(next);
+			}
 		}
 		
-		this.setSelection(case1);
+		this.setSelection(next);
 	}
 	
 	public void draw(Case next) {
 		Case selection = this.getSelection();
-		Line current = selection.getLine();// we need to retrieve current ligne before removing cases next's ligne (in case it's the same ligne)
+		Line current = selection.getLine();// we need to retrieve current line before removing cases next's line (in case it's the same ligne)
 		
 		if (next.hasLine()) {
 			Line line = next.getLine();
@@ -81,20 +112,30 @@ public class GameController {
 			return;
 		}
 		
-		current.add(next);
+		if (!next.hasLine()) current.add(next);
 		if (next.isExtremite() && !next.equals(current.getCases().get(0))) this.setSelection(null); // if we have finished drawing the currently selected line
 		else this.setSelection(next);
 	}
 	
 	public void action(boolean click, Case next) {
+		boolean creation = this.getState().equals(GameState.LEVEL_ADD);
 		Case prev = this.getSelection();
-		if (prev == null || !prev.isNextTo(next) || (prev.isExtremite() && next.isExtremite() && !prev.getLineColor().equals(next.getLineColor())) || (prev.hasLine() && next.isExtremite() && !prev.getLine().getLineColor().equals(next.getLineColor()))) {
-			if (click) this.select(next);
+
+		if (prev == null || prev.equals(next) || !prev.isNextTo(next) || (prev.isExtremite() && next.isExtremite() && !prev.getLineColor().equals(next.getLineColor())) || (prev.hasLine() && next.isExtremite() && !prev.getLine().getLineColor().equals(next.getLineColor()))) {
+			if (click || creation) this.select(next);
 		} else {
 			this.draw(next);
 		}
 		
 		if (this.getLevel().isFinished()) {
+			if(creation) {
+				for (Line line : this.getLevel().getLines().values()) {
+					line.getCases().get(0).setLineColor(line.getLineColor());
+					line.getCases().get(line.getCases().size() - 1).setLineColor(line.getLineColor());
+				}
+			}
+			
+			this.getLevel().setParameter(this.getLevel().getParameter());
 			this.setState(GameState.LEVEL_FINISHED);
 		}
 	}
@@ -119,6 +160,12 @@ public class GameController {
 			this.setSelection(null);
 			this.setState(GameState.LEVEL);
 		}
+		
+		if (this.getLevelId() == this.getLevels().size()) {
+			this.getLevels().add(new Level(5));
+			this.setSelection(null);
+			this.setState(GameState.LEVEL_ADD);
+		}
 	}
 	
 	/**
@@ -129,10 +176,11 @@ public class GameController {
 		
 		String separator = FileSystems.getDefault().getSeparator();
 		
-		String path = "";
+		String executionPath = "";
+		
 		try {
 			
-			path = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
+			executionPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
 			
 		} catch (URISyntaxException e) {
 		}
@@ -141,15 +189,20 @@ public class GameController {
 		
 		try {
 
-			scanner = new Scanner(new File(path + separator + ".." + separator + "levels.txt"));
+			this.levelsPath = executionPath + separator + ".." + separator + "levels.txt";
+			scanner = new Scanner(new File(this.getLevelsPath()));
 			
 		} catch (FileNotFoundException e) {
 			
 			try {
-				
-				scanner = new Scanner(new File(path + separator + ".." + separator + "src" + separator + "levels.txt"));
+
+				this.levelsPath = executionPath + separator + ".." + separator + "src" + separator + "levels.txt";
+				scanner = new Scanner(new File(this.getLevelsPath()));
 				
 			} catch (FileNotFoundException e1) {
+				
+				this.setLevelsPath(null);
+				
 			}
 			
 		}
@@ -164,6 +217,34 @@ public class GameController {
 		}
 		
 		return levels;
+	}
+	
+	public void saveLevelsData() {
+		if (this.getLevelsPath() != null) {
+
+			BufferedWriter writer = null;
+			
+	        try {
+
+	            writer = new BufferedWriter(new FileWriter(new File(this.getLevelsPath())));
+	            
+	            this.getLevels().sort(Comparator.comparing(Level::getSquareLength));	            
+	            for (Level level : this.getLevels()) {
+	            	writer.write(level.getParameter() + System.lineSeparator());
+	            }
+	            
+	        } catch (Exception e) {
+	        } finally {
+	        	
+                try {
+                	
+					if (writer != null) writer.close();
+					
+				} catch (IOException e) {
+				}
+                
+	        }
+		}
 	}
 
 	public GameState getState() {
@@ -196,6 +277,14 @@ public class GameController {
 	
 	public int getMaxPageId() {
 		return this.getLevels().size() / (GamePanel.MENU_X_LENGTH * GamePanel.MENU_Y_LENGTH);
+	}
+
+	public String getLevelsPath() {
+		return levelsPath;
+	}
+
+	public void setLevelsPath(String levelsPath) {
+		this.levelsPath = levelsPath;
 	}
 
 }

@@ -6,7 +6,6 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
-import game.controls.GameController.GameState;
 import game.models.Case;
 import game.models.Line;
 
@@ -53,7 +52,8 @@ public class GamePanel extends JPanel {
 		g.setColor(GamePanel.BACKGROUND_COLOR);
 		g.fillRect(0, 0, GameWindow.WINDOW_LENGTH, GameWindow.WINDOW_LENGTH);
 		
-		if (this.getController().getState().equals(GameState.MAIN_MENU)) {
+		switch (this.getController().getState()) {
+		case MAIN_MENU:
 			// Title
 			g.setColor(GamePanel.WHITE);
 			g.setFont(new Font("Segoe UI", Font.PLAIN, GameWindow.WINDOW_LENGTH / 9));
@@ -93,7 +93,20 @@ public class GamePanel extends JPanel {
 					
 				}
 			}
-		} else if (this.getController().getState().equals(GameState.LEVEL)) {
+
+			if (this.getController().getPageId() == this.getController().getMaxPageId()) {
+				// Level add icon
+				int remainder = this.getController().getLevels().size() % (GamePanel.MENU_X_LENGTH * GamePanel.MENU_Y_LENGTH);
+				int p = remainder / GamePanel.MENU_X_LENGTH;
+				int q = remainder % GamePanel.MENU_X_LENGTH;
+				
+				g.setFont(new Font("Segoe UI", Font.PLAIN, GameWindow.WINDOW_LENGTH / 15));
+				g.drawOval(q * GamePanel.MENU_X_SPACE + GamePanel.MENU_X_SPACE / 4 + GamePanel.MENU_X_MARGIN, p * GamePanel.MENU_Y_SPACE + GamePanel.MENU_Y_SPACE / 4 + GamePanel.MENU_Y_OFFSET, GamePanel.MENU_X_SPACE / 2, GamePanel.MENU_X_SPACE / 2);
+				g.drawString("+", q * GamePanel.MENU_X_SPACE + GamePanel.MENU_X_SPACE / 2 - 2 * GamePanel.MENU_X_SPACE / 17 + GamePanel.MENU_X_MARGIN, p * GamePanel.MENU_Y_SPACE + GamePanel.MENU_Y_SPACE / 2 + GamePanel.MENU_Y_SPACE / 7 + GamePanel.MENU_Y_OFFSET);
+			}
+			
+			break;
+		case LEVEL: case LEVEL_ADD:
 			int length = this.getController().getLevel().getSquareLength();
 			int space = GameWindow.WINDOW_LENGTH / length;
 			
@@ -146,7 +159,8 @@ public class GamePanel extends JPanel {
 					}
 				}
 			}
-		} else if (this.getController().getState().equals(GameState.LEVEL_FINISHED)) {
+			break;
+		case LEVEL_FINISHED:
 			g.setColor(GamePanel.WHITE);
 			g.setFont(new Font("Segoe UI", Font.PLAIN, GameWindow.WINDOW_LENGTH / 9));
 			g.drawString("Niveau terminé", GameWindow.WINDOW_LENGTH / 8, GameWindow.WINDOW_LENGTH / 3);
@@ -154,6 +168,7 @@ public class GamePanel extends JPanel {
 			g.setFont(new Font("Segoe UI", Font.PLAIN, GameWindow.WINDOW_LENGTH / 20));
 			g.drawString("> Menu principal", 5 * GameWindow.WINDOW_LENGTH / 16, 2 * GameWindow.WINDOW_LENGTH / 3 + GameWindow.WINDOW_LENGTH / 18);
 			g.drawRect(GameWindow.WINDOW_LENGTH / 4, 2 * GameWindow.WINDOW_LENGTH / 3, GameWindow.WINDOW_LENGTH / 2, GameWindow.WINDOW_LENGTH / 12);
+			break;
 		}
 	}
 
