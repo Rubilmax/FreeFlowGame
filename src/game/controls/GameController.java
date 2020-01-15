@@ -122,7 +122,7 @@ public class GameController {
 		Case prev = this.getSelection();
 
 		if (prev == null || prev.equals(next) || !prev.isNextTo(next) || (prev.isExtremite() && next.isExtremite() && !prev.getLineColor().equals(next.getLineColor())) || (prev.hasLine() && next.isExtremite() && !prev.getLine().getLineColor().equals(next.getLineColor()))) {
-			if (click || creation) this.select(next);
+			if (click || (creation && !prev.isNextTo(next))) this.select(next);
 		} else {
 			this.draw(next);
 		}
@@ -136,6 +136,7 @@ public class GameController {
 			}
 			
 			this.getLevel().setParameter(this.getLevel().getParameter());
+			if (creation) this.saveLevelsData();
 			this.setState(GameState.LEVEL_FINISHED);
 		}
 	}

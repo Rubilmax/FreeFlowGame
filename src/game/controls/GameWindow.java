@@ -2,8 +2,6 @@ package game.controls;
 
 import java.awt.Dimension;
 import java.awt.GraphicsConfiguration;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
 
@@ -42,14 +40,6 @@ public class GameWindow extends JFrame {
 		this.addMouseListener(this.gameListener);
 		this.addMouseWheelListener(this.gameListener);
 		this.addKeyListener(this.gameListener);
-		this.addWindowListener(new WindowAdapter() {
-			
-			@Override
-			public void windowClosing(WindowEvent event) {
-				gameController.saveLevelsData();
-			}
-			
-		});
 		this.setContentPane(this.gamePanel);
 		
 		this.pack();
