@@ -147,6 +147,13 @@ public class Level {
 	public void setCase(int ligne, int colonne, Case newCase) {
 		this.getCases().put(String.valueOf(ligne) + "." + String.valueOf(colonne), newCase);
 	}
+	
+	public void removeCase(int ligne, int colonne) {
+		String key1 = String.valueOf(ligne) + "." + String.valueOf(colonne);
+		Case case1 = this.getCases().get(key1);
+		if (case1 != null && case1.hasLine()) case1.getLine().reset(null);
+		this.getCases().remove(key1);
+	}
 
 	public int getSquareLength() {
 		return squareLength;
@@ -220,14 +227,8 @@ public class Level {
 	public void zoom() {
 		if (this.getSquareLength() > 5) {
 			for (int k = 0; k < this.getSquareLength(); k++) {
-				Case case1 = this.getCases().get(String.valueOf(this.getSquareLength()) + "." + String.valueOf(k));
-				if (case1 != null && case1.hasLine()) case1.getLine().reset(null);
-				
-				Case case2 = this.getCases().get(String.valueOf(this.getSquareLength()) + "." + String.valueOf(k));
-				if (case2 != null && case2.hasLine()) case2.getLine().reset(null);
-				
-				this.getCases().remove(String.valueOf(this.getSquareLength()) + "." + String.valueOf(k));
-				this.getCases().remove(String.valueOf(k) + "." + String.valueOf(this.getSquareLength()));
+				this.removeCase(this.getSquareLength() - 1, k);
+				this.removeCase(k, this.getSquareLength() - 1);
 			}
 			
 			this.setSquareLength(this.getSquareLength() - 1);
