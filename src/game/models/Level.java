@@ -169,7 +169,7 @@ public class Level {
 		}
 		
 		for (Line line : this.getLines().values()) {
-			if (line.getCases().size() < 2) return false;
+			if (line.getCases().size() == 1) return false; // for creation mode validation
 		}
 		
 		return true;

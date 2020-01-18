@@ -64,8 +64,8 @@ public class GameController {
 
 		if (next.isExtremite()) {
 			if (creation && next.equals(this.getSelection())) {
+				next.getLine().reset(null);
 				next.setLineColor(null);
-				next.setLine(null);
 				next = null;
 			} else {
 				LineColor lineColor = next.getLineColor();
