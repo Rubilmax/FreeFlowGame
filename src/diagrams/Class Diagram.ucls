@@ -13,7 +13,7 @@
   </enumeration>  
   <class id="2" language="java" name="game.models.Line" project="FreeFlowGame" 
     file="/FreeFlowGame/src/game/models/Line.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="886" y="1083"/>    
+    <position height="-1" width="-1" x="937" y="1201"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -22,7 +22,7 @@
   </class>  
   <class id="3" language="java" name="game.models.Case" project="FreeFlowGame" 
     file="/FreeFlowGame/src/game/models/Case.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="935" y="701"/>    
+    <position height="-1" width="-1" x="954" y="728"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -31,7 +31,7 @@
   </class>  
   <class id="4" language="java" name="game.models.Level" project="FreeFlowGame" 
     file="/FreeFlowGame/src/game/models/Level.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="528" y="958"/>    
+    <position height="-1" width="-1" x="534" y="1095"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -58,7 +58,7 @@
   </class>  
   <class id="7" language="java" name="game.controls.GamePanel" project="FreeFlowGame" 
     file="/FreeFlowGame/src/game/controls/GamePanel.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="594" y="504"/>    
+    <position height="-1" width="-1" x="578" y="555"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -86,57 +86,58 @@
   <association id="10">    
     <end type="SOURCE" refId="4" navigable="false">      
       <attribute id="11" name="cases">        
-        <position height="0" width="0" x="17" y="17"/>      
+        <position height="0" width="0" x="36" y="44"/>      
       </attribute>      
       <multiplicity id="12" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="17" y="17"/>      
+        <position height="0" width="0" x="36" y="44"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="3" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="13">    
-    <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="14" name="gameListener">        
-        <position height="0" width="0" x="-10" y="5"/>      
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="14" name="lineColor">        
+        <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
       <multiplicity id="15" minimum="0" maximum="1">        
-        <position height="0" width="0" x="-10" y="5"/>      
+        <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="6" navigable="true"/>    
+    <end type="TARGET" refId="1" navigable="true"/>    
     <display labels="true" multiplicity="false"/>  
   </association>  
   <association id="16">    
-    <end type="SOURCE" refId="9" navigable="false">      
-      <attribute id="17" name="state">        
-        <position height="0" width="0" x="0" y="0"/>      
+    <bendpoint x="948" y="899"/>    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="17" name="cases">        
+        <position height="0" width="0" x="36" y="44"/>      
       </attribute>      
-      <multiplicity id="18" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
+      <multiplicity id="18" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="36" y="44"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="8" navigable="true"/>    
-    <display labels="true" multiplicity="false"/>  
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="19">    
-    <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="20" name="gamePanel">        
-        <position height="0" width="0" x="12" y="18"/>      
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="20" name="lines">        
+        <position height="0" width="0" x="51" y="118"/>      
       </attribute>      
-      <multiplicity id="21" minimum="0" maximum="1">        
-        <position height="0" width="0" x="12" y="18"/>      
+      <multiplicity id="21" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="51" y="118"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="7" navigable="true"/>    
-    <display labels="true" multiplicity="false"/>  
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="22">    
-    <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="23" name="lineColors">        
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="23" name="lineColor">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="24" minimum="0" maximum="2147483647">        
+      <multiplicity id="24" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
@@ -144,31 +145,31 @@
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="25">    
-    <end type="SOURCE" refId="9" navigable="false">      
-      <attribute id="26" name="levels">        
-        <position height="0" width="0" x="12" y="80"/>      
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="26" name="panel">        
+        <position height="0" width="0" x="-4" y="69"/>      
       </attribute>      
-      <multiplicity id="27" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="12" y="80"/>      
+      <multiplicity id="27" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-4" y="69"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="4" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="false"/>  
   </association>  
   <association id="28">    
-    <end type="SOURCE" refId="7" navigable="false">      
-      <attribute id="29" name="controleur">        
-        <position height="0" width="0" x="0" y="0"/>      
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="29" name="gameListener">        
+        <position height="0" width="0" x="-10" y="5"/>      
       </attribute>      
       <multiplicity id="30" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
+        <position height="0" width="0" x="-10" y="5"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="9" navigable="true"/>    
+    <end type="TARGET" refId="6" navigable="true"/>    
     <display labels="true" multiplicity="false"/>  
   </association>  
   <association id="31">    
-    <end type="SOURCE" refId="6" navigable="false">      
+    <end type="SOURCE" refId="7" navigable="false">      
       <attribute id="32" name="controleur">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
@@ -181,88 +182,86 @@
   </association>  
   <association id="34">    
     <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="35" name="lineColor">        
-        <position height="0" width="0" x="0" y="0"/>      
+      <attribute id="35" name="line">        
+        <position height="0" width="0" x="51" y="118"/>      
       </attribute>      
       <multiplicity id="36" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
+        <position height="0" width="0" x="51" y="118"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="1" navigable="true"/>    
+    <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="37">    
-    <bendpoint x="948" y="899"/>    
-    <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="38" name="cases">        
-        <position height="0" width="0" x="17" y="17"/>      
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="38" name="selection">        
+        <position height="0" width="0" x="36" y="44"/>      
       </attribute>      
-      <multiplicity id="39" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="17" y="17"/>      
+      <multiplicity id="39" minimum="0" maximum="1">        
+        <position height="0" width="0" x="36" y="44"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="3" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="40">    
-    <end type="SOURCE" refId="9" navigable="false">      
-      <attribute id="41" name="selection">        
-        <position height="0" width="0" x="17" y="17"/>      
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="41" name="gamePanel">        
+        <position height="0" width="0" x="-4" y="69"/>      
       </attribute>      
       <multiplicity id="42" minimum="0" maximum="1">        
-        <position height="0" width="0" x="17" y="17"/>      
+        <position height="0" width="0" x="-4" y="69"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="3" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="false"/>  
   </association>  
   <association id="43">    
-    <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="44" name="lineColor">        
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="44" name="lineColors">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="45" minimum="0" maximum="1">        
+      <multiplicity id="45" minimum="0" maximum="2147483647">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="1" navigable="true"/>    
-    <display labels="true" multiplicity="false"/>  
-  </association>  
-  <association id="46">    
-    <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="47" name="lines">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="48" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="49">    
-    <bendpoint x="869" y="909"/>    
-    <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="50" name="line">        
+  <association id="46">    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="47" name="state">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="51" minimum="0" maximum="1">        
+      <multiplicity id="48" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="2" navigable="true"/>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="false"/>  
+  </association>  
+  <association id="49">    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="50" name="levels">        
+        <position height="0" width="0" x="18" y="217"/>      
+      </attribute>      
+      <multiplicity id="51" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="18" y="217"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="52">    
     <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="53" name="panel">        
-        <position height="0" width="0" x="12" y="18"/>      
+      <attribute id="53" name="controleur">        
+        <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
       <multiplicity id="54" minimum="0" maximum="1">        
-        <position height="0" width="0" x="12" y="18"/>      
+        <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="7" navigable="true"/>    
+    <end type="TARGET" refId="9" navigable="true"/>    
     <display labels="true" multiplicity="false"/>  
   </association>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
