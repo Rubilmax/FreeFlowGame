@@ -183,12 +183,12 @@ public class Level {
 		return false;
 	}
 	
-	public int countExtremites(LineColor lineColor) {
-		int count = 0;
+	public List<Case> getExtremites(LineColor lineColor) {
+		List<Case> extremites = new ArrayList<Case>();
 		for (Case case1 : this.getCases().values()) {
-			if (case1.isExtremite() && case1.getLineColor().equals(lineColor)) count ++;
+			if (case1.isExtremite() && case1.getLineColor().equals(lineColor)) extremites.add(case1);
 		}
-		return count;
+		return extremites;
 	}
 
 	public String getParameter() {

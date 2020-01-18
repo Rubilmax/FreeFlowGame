@@ -79,10 +79,11 @@ public class GameController {
 			
 			LineColor currentLineColor = next.getLine().getLineColor();
 			if (creation && this.getSelection() != null && this.getSelection().hasLine() && currentLineColor.equals(this.getSelection().getLine().getLineColor())) {
-				if (this.getLevel().countExtremites(currentLineColor) < 2) {
-					next.setLineColor(currentLineColor);
-					next = null;
+				for (Case extremite : this.getLevel().getExtremites(currentLineColor)) {
+					if (!extremite.hasLine()) extremite.setLineColor(null);
 				}
+				next.setLineColor(currentLineColor);
+				next = null;
 			}
 		} else if (creation) {
 			LineColor lineColor = this.getLevel().getRandomUnusedLineColor();

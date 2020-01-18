@@ -3,6 +3,8 @@ package game.controls;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 
 import javax.swing.JPanel;
 
@@ -17,16 +19,16 @@ import game.models.Line;
  * @version 1.0
  *
  */
-public class GamePanel extends JPanel {
+public class GamePanel extends JPanel implements ComponentListener {
 
-	public static final int MENU_X_LENGTH = 5;
-	public static final int MENU_Y_LENGTH = 4;
+	public static int MENU_X_LENGTH = 5;
+	public static int MENU_Y_LENGTH = 4;
 	
-	public static final int MENU_X_MARGIN = GameWindow.WINDOW_LENGTH / 20;
-	public static final int MENU_Y_OFFSET = GameWindow.WINDOW_LENGTH / 3;
+	public static int MENU_X_MARGIN = GameWindow.WINDOW_LENGTH / 20;
+	public static int MENU_Y_OFFSET = GameWindow.WINDOW_LENGTH / 3;
 	
-	public static final int MENU_X_SPACE = (GameWindow.WINDOW_LENGTH - 2 * GamePanel.MENU_X_MARGIN) / GamePanel.MENU_X_LENGTH;
-	public static final int MENU_Y_SPACE = (GameWindow.WINDOW_LENGTH - GamePanel.MENU_Y_OFFSET) / GamePanel.MENU_Y_LENGTH;
+	public static int MENU_X_SPACE = (GameWindow.WINDOW_LENGTH - 2 * GamePanel.MENU_X_MARGIN) / GamePanel.MENU_X_LENGTH;
+	public static int MENU_Y_SPACE = (GameWindow.WINDOW_LENGTH - GamePanel.MENU_Y_OFFSET) / GamePanel.MENU_Y_LENGTH;
 	
 	public static final Color BACKGROUND_COLOR = new Color(46, 49, 49);
 	public static final Color SELECT_COLOR = new Color(58, 61, 61);
@@ -50,6 +52,7 @@ public class GamePanel extends JPanel {
 	
 	@Override
 	public void paint(Graphics g) {
+		GamePanel.computeLength();
 		g.setColor(GamePanel.BACKGROUND_COLOR);
 		g.fillRect(0, 0, GameWindow.WINDOW_LENGTH, GameWindow.WINDOW_LENGTH);
 		
@@ -171,6 +174,38 @@ public class GamePanel extends JPanel {
 			g.drawRect(GameWindow.WINDOW_LENGTH / 4, 2 * GameWindow.WINDOW_LENGTH / 3, GameWindow.WINDOW_LENGTH / 2, GameWindow.WINDOW_LENGTH / 12);
 			break;
 		}
+	}
+
+	@Override
+	public void componentHidden(ComponentEvent arg0) {
+	}
+
+	@Override
+	public void componentMoved(ComponentEvent arg0) {
+	}
+
+	@Override
+	public void componentResized(ComponentEvent event) {
+		if ((int) event.getComponent().getSize().getWidth() - GameWindow.WINDOW_X_OFFSET != GameWindow.WINDOW_LENGTH || (int) event.getComponent().getSize().getHeight() - GameWindow.WINDOW_Y_OFFSET != GameWindow.WINDOW_LENGTH) {
+			GameWindow.WINDOW_LENGTH = (int) Math.min(event.getComponent().getSize().getHeight() - GameWindow.WINDOW_Y_OFFSET, event.getComponent().getSize().getWidth() - GameWindow.WINDOW_X_OFFSET);
+			event.getComponent().setSize(GameWindow.WINDOW_X_OFFSET + GameWindow.WINDOW_LENGTH, GameWindow.WINDOW_Y_OFFSET + GameWindow.WINDOW_LENGTH);
+			repaint();
+		}
+	}
+
+	@Override
+	public void componentShown(ComponentEvent arg0) {
+	}
+	
+	public static void computeLength() {
+		GamePanel.MENU_X_LENGTH = 5;
+		GamePanel.MENU_Y_LENGTH = 4;
+		
+		GamePanel.MENU_X_MARGIN = GameWindow.WINDOW_LENGTH / 20;
+		GamePanel.MENU_Y_OFFSET = GameWindow.WINDOW_LENGTH / 3;
+		
+		GamePanel.MENU_X_SPACE = (GameWindow.WINDOW_LENGTH - 2 * GamePanel.MENU_X_MARGIN) / GamePanel.MENU_X_LENGTH;
+		GamePanel.MENU_Y_SPACE = (GameWindow.WINDOW_LENGTH - GamePanel.MENU_Y_OFFSET) / GamePanel.MENU_Y_LENGTH;
 	}
 
 }
