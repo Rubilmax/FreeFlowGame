@@ -73,16 +73,16 @@ public class GameController {
 				line.reset(next);
 			}
 		} else if (next.hasLine()) {
+			Line line = next.getLine();
+			line.removeFrom(next);
+			line.add(next);
+			
 			LineColor currentLineColor = next.getLine().getLineColor();
 			if (creation && this.getSelection() != null && this.getSelection().hasLine() && currentLineColor.equals(this.getSelection().getLine().getLineColor())) {
 				if (this.getLevel().countExtremites(currentLineColor) < 2) {
 					next.setLineColor(currentLineColor);
 					next = null;
 				}
-			} else {
-				Line line = next.getLine();
-				line.removeFrom(next);
-				line.add(next);
 			}
 		} else if (creation) {
 			LineColor lineColor = this.getLevel().getRandomUnusedLineColor();
