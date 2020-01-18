@@ -129,8 +129,10 @@ public class GameController {
 		if (this.getLevel().isFinished()) {
 			if(creation) {
 				for (Line line : this.getLevel().getLines().values()) {
-					line.getCases().get(0).setLineColor(line.getLineColor());
-					line.getCases().get(line.getCases().size() - 1).setLineColor(line.getLineColor());
+					if (line.getCases().size() > 1) {
+						line.getCases().get(0).setLineColor(line.getLineColor());
+						line.getCases().get(line.getCases().size() - 1).setLineColor(line.getLineColor());
+					}
 				}
 			}
 			
