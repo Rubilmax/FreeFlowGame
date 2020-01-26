@@ -23,8 +23,8 @@ public class GameWindow extends JFrame {
 	private static final long serialVersionUID = -7554685878132584373L;
 	public static int WINDOW_LENGTH = 800;
 	
-	public static final int WINDOW_Y_OFFSET = 35;
-	public static final int WINDOW_X_OFFSET = 6;
+	public static final int WINDOW_Y_OFFSET = 47;
+	public static final int WINDOW_X_OFFSET = 18;
 	
 	private final GamePanel gamePanel;
 	private final GameListener gameListener;
